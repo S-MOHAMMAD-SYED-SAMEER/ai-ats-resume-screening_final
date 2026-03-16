@@ -1,5 +1,4 @@
 import streamlit as st
-from core.email_list_generator import generate_email_list
 
 
 def show_rejection_email():
@@ -7,25 +6,71 @@ def show_rejection_email():
     st.title("Rejection Email Generator")
 
     if "results" not in st.session_state:
-
-        st.warning("Run resume analysis first")
+        st.warning("Please analyze resumes first.")
         return
 
     df = st.session_state.results
 
-    selected = st.multiselect(
-        "Select Rejected Candidates",
-        df["Name"]
-    )
+    shortlisted = df[df["Shortlisted"] == "Yes"]
+    rejected = df[df["Shortlisted"] == "No"]
 
-    rejected_df = df[df["Name"].isin(selected)]
 
-    if st.button("Generate Email List"):
+    # -----------------------
+    # SHORTLISTED
+    # -----------------------
 
-        email_list = generate_email_list(rejected_df)
+    st.subheader("Shortlisted Candidates")
 
-        st.text_area(
-            "Copy Email List",
-            email_list,
-            height=150
+    if len(shortlisted) == 0:
+        st.info("No shortlisted candidates")
+
+    else:
+
+        selected_names = st.multiselect(
+            "Select Candidate",
+            shortlisted["Name"].tolist()
         )
+
+        if selected_names:
+
+            emails = shortlisted[
+                shortlisted["Name"].isin(selected_names)
+            ]["Email"].tolist()
+
+            email_block = ", ".join(emails)
+
+            st.markdown("### Selected Emails")
+
+            st.code(email_block)
+
+
+    st.divider()
+
+
+    # -----------------------
+    # REJECTED
+    # -----------------------
+
+    st.subheader("Rejected Candidates")
+
+    if len(rejected) == 0:
+        st.info("No rejected candidates")
+
+    else:
+
+        selected_names = st.multiselect(
+            "Select Rejected Candidates",
+            rejected["Name"].tolist()
+        )
+
+        if selected_names:
+
+            emails = rejected[
+                rejected["Name"].isin(selected_names)
+            ]["Email"].tolist()
+
+            email_block = ", ".join(emails)
+
+            st.markdown("### Selected Emails")
+
+            st.code(email_block)
