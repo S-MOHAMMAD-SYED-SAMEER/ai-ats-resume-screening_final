@@ -48,6 +48,9 @@ with st.sidebar:
     st.write(f"Logged in as: {st.session_state.username}")
 
     st.markdown("---")
+    st.title("Navigation")
+
+    show_logo = st.checkbox("Show Logo", value=True)
 
     page = st.radio(
         "Navigation",
@@ -64,15 +67,18 @@ with st.sidebar:
         logout()
 
 
-# LOGO
-col1, col2 = st.columns([1,5])
+# HEADER
+if show_logo:
 
-with col1:
-    st.image("logo/client_logo.jpeg", width=100)
+    col1, col2 = st.columns([1,5])
 
-with col2:
-    st.markdown("## Positive Childhood Alliance")
-    st.markdown("### AI ATS Resume Screening System")
+    with col1:
+        st.image("logo/client_logo.jpeg", width=100)
+
+    with col2:
+        st.markdown("## Positive Childhood Alliance")
+        st.markdown("### AI ATS Resume Screening System")
+
 
 # PAGE ROUTER
 if page == "Resume Analysis":
