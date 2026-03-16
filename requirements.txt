@@ -4,3 +4,5 @@ pdfplumber
 python-docx
 scikit-learn
 numpy
+sentence-transformers
+pyPDF2
