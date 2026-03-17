@@ -3,7 +3,7 @@ import os
 
 from auth.auth_service import login, logout
 from modules.resume_analysis import show_resume_analysis
-from modules.rejection_email import show_rejection_email
+from modules.experience_analysis import show_experience_analysis
 from modules.user_management import show_user_management
 
 st.set_page_config(page_title="AI ATS System", layout="wide")
@@ -56,7 +56,7 @@ with st.sidebar:
         "Navigation",
         [
             "Resume Analysis",
-            "Rejection Email",
+            "Experience Detection",
             "User Management"
         ]
     )
@@ -84,8 +84,8 @@ if show_logo:
 if page == "Resume Analysis":
     show_resume_analysis()
 
-elif page == "Rejection Email":
-    show_rejection_email()
+elif page == "Experience Detection":
+    show_experience_analysis()
 
 elif page == "User Management":
     show_user_management()

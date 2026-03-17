@@ -16,5 +16,5 @@ def login(username, password):
 
 
 def logout():
-    st.session_state.logged_in = False
+    st.session_state.clear()
     st.rerun()

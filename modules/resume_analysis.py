@@ -12,13 +12,6 @@ def show_resume_analysis():
 
     job_description = st.text_area("Paste Job Description")
 
-    threshold = st.slider(
-        "Shortlist Threshold (%)",
-        0,
-        100,
-        60
-    )
-
     uploaded_files = st.file_uploader(
         "Upload Resumes",
         type=["pdf", "docx"],
@@ -41,11 +34,11 @@ def show_resume_analysis():
             email = extract_email(text)
             phone = extract_phone(text)
 
-            # NEW EXPERIENCE DETECTION
+            # EXPERIENCE DETECTION
             exp_years = extract_experience_years(text)
 
             if exp_years == 0:
-                exp = "0 yrs"
+                exp = "Fresher / <1 yr"
             else:
                 exp = f"{exp_years} yrs"
 
@@ -54,7 +47,6 @@ def show_resume_analysis():
                 "Candidate ID": f"CAND-{cid}",
                 "Name": name,
                 "Score": score,
-                "Shortlisted": "Yes" if score >= threshold else "No",
                 "Email": email,
                 "Phone": phone,
                 "Experience": exp
@@ -68,17 +60,12 @@ def show_resume_analysis():
 
         df["Rank"] = range(1, len(df)+1)
 
-        st.session_state.results = df
+        st.session_state.resume_results = df
 
     # SAFE DISPLAY BLOCK
-    if "results" in st.session_state:
+    if "resume_results" in st.session_state:
 
-        df = st.session_state.results
+        df = st.session_state.resume_results
 
         st.subheader("All Candidates")
         st.dataframe(df, use_container_width=True)
-
-        shortlisted = df[df["Shortlisted"] == "Yes"]
-
-        st.subheader("Shortlisted Candidates")
-        st.dataframe(shortlisted, use_container_width=True)
