@@ -49,7 +49,7 @@ def show_resume_analysis():
                 "Score": score,
                 "Email": email,
                 "Phone": phone,
-                "Experience": exp
+                
             })
 
             cid += 1
